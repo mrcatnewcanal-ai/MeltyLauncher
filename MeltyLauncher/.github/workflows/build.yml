@@ -1,8 +1,10 @@
+
 name: Build Android APK
 
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,6 +14,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Mostrar archivos en la raiz del repo
+      run: ls -la
+
+    - name: Mostrar archivos dentro de MeltyLauncher
+      run: |
+        echo "=== Buscando carpeta MeltyLauncher ==="
+        ls -la MeltyLauncher/ || ls -la meltylauncher/ || ls -la MELTYLAUNCHER/
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -20,7 +30,7 @@ jobs:
 
     - name: Grant execute permission and build APK
       run: |
-        cd MeltyLauncher/MeltyLauncher
+        cd MeltyLauncher
         chmod +x gradlew
         ./gradlew assembleDebug
 
@@ -28,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: MeltyLauncher/MeltyLauncher/app/build/outputs/apk/debug/app-debug.apk
+        path: MeltyLauncher/app/build/outputs/apk/debug/app-debug.apk
