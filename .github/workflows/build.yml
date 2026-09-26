@@ -19,8 +19,8 @@ jobs:
         java-version: '17'
 
     - name: Grant execute permission and build APK
+      working-directory: ./MeltyLauncher
       run: |
-        cd MeltyLauncher
         chmod +x gradlew
         ./gradlew assembleDebug
 
