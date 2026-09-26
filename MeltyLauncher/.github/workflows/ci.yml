@@ -1,7 +1,8 @@
-name: Melty Launcher Build
+name: Build APK
 
 on:
   push:
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -9,23 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout del repositorio
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Configurar Java JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Dar permisos y compilar APK
-      run: |
-        cd MeltyLauncher
-        chmod +x gradlew
-        ./gradlew assembleDebug
+      - name: Build with Gradle
+        run: |
+          cd MeltyLauncher
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
-    - name: Subir APK generada
-      uses: actions/upload-artifact@v4
-      with:
-        name: melty-launcher-apk
-        path: MeltyLauncher/app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: melty-launcher-apk
+          path: MeltyLauncher/app/build/outputs/apk/debug/app-debug.apk
+          
