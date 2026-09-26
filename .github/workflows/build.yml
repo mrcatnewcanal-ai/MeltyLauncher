@@ -18,16 +18,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew || true
-
-    - name: Build APK with Gradle
+    - name: Build APK with Gradle inside folder
       run: |
-        # Si no tienes gradle wrapper en la carpeta, GitHub descargará las herramientas de compilación
+        cd MeltyLauncher
         gradle assembleDebug || ./gradlew assembleDebug
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: MeltyLauncher/app/build/outputs/apk/debug/app-debug.apk
